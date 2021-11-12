@@ -1,0 +1,23 @@
+html{font-family: 'Times New Roman', Times, serif;}
+p{white-space: nowrap}
+
+.search{z-index:2;position:absolute;width:100%;left: 0;top:0;height: 70px;background: green;}
+.search_input{height:0px;width: 280px;position:fixed;right:70px;top:15px;border:1px solid;border-radius: 30px;padding: 20px;}
+.search_input:focus{background: green;outline: none;}
+.search_button{background:white;height:40px;width: 40px;position:fixed;right:30px;top:15px;border:1px solid;border-radius: 30px}
+.search_svg{width: 35px;height: 35px;}
+
+.home{left:0;top:0;position: absolute;width: 100%;text-align: center;display: initial;}
+#good{top: 100px;position: relative;}
+#subgood{top:130px;position: relative;}
+
+.search_page{position: absolute;margin: 40px;display: none;}
+#search_result{font-size: 40px;}
+.list{left:30px;position: relative;display: flex;flex-wrap: wrap;white-space: nowrap;}
+.item{margin: 5px;position: relative;width: 340px;height: 100px;border-radius: 10px;overflow: hidden;border-left: 1px solid;border-bottom: solid 1px;}.item:hover{background: rgba(0, 0, 0, 0.2);}
+.id{position: absolute;right: 10px;bottom: -10px;font-size: 12px;}
+.cover{margin:10px;height:80px;width: 80px;border-radius: 10px;}
+.title{position: absolute;top:-10px;left: 100px;font-size: 20px;font-weight: bold;}
+.alia{font-size: 13px;color: rgba(0, 0, 0, 0.5);}
+.artists{display:flex;position: absolute;top:25px;left: 110px;font-size: 17px;color: rgba(0, 0, 0, 0.5);}.artist:after{content: "\00A0\00A0";}
+.album{position: absolute;top:45px;left: 120px;font-size: 17px;color: rgba(0, 0, 0, 0.5);}

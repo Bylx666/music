@@ -1,8 +1,39 @@
 <!DOCTYPE html>
 <head>
-    <meta lang="utf8">
+    <meta charset="utf8">
+    <script src="api.js"></script>
+    <script src="main.js"></script>
+    <link href="main.css" rel="stylesheet">
     <title>shit</title>
 </head>
 <body>
-    helloShit!
+    <p style="height: 120%;position: absolute;">overflow</p>
+    <div class="search"><form name='searchform'>
+        <input class="search_input" name='keywords' onkeypress="enterInput()">
+        <input style="display: none;">
+    </form>
+    <button class="search_button" onclick="search(searchform.keywords.value,offset)"><img src="icons/arrow-right.svg" class="search_svg"></button></div>
+    <p onclick="getUrl('1859652717')">e</p>
+
+    <div class="home">
+        <h1 id="good"></h1>
+        <h2 id="subgood"></h2>
+    </div>
+    
+    <div class="search_page"><h1 id="search_result">Search Results:</h1>
+        <div class="list"></div>
+    </div>
 </body>
+<script>
+    var page = 1
+    var offset = ( page - 1 ) * 30
+    //init
+    good()
+    function enterInput(){
+        document.onkeydown=enter => {
+            if(enter&&enter.keyCode==13){
+                document.getElementsByClassName('search_button')[0].click()
+            }
+        }
+    }
+</script>
