@@ -24,7 +24,7 @@ function search(keywords,offset){
     searchButtonCd()
     let intSearch = null
     clearInterval(intSearch)
-    var keywords = keywords.replaceAll(' ','')
+    var keywords = keywords.replace(/ /g,'')
     if(keywords.length == 0){toast("只输入"+keywords+"，想烧服务器啊?");return}
     document.getElementById('loading').innerHTML=""
     time=0
