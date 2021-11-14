@@ -1,6 +1,18 @@
 function a(){
     alert("test")
 }
+function play(){
+    if(playing == null) toast('Find your favorite songs first~')
+    else{
+    playing.play()
+    document.getElementsByClassName('player_play')[0].style.display="none"
+    document.getElementsByClassName('player_pause')[0].style.display="initial"}
+}
+function pause(){
+    playing.pause()
+    document.getElementsByClassName('player_play')[0].style.display="initial"
+    document.getElementsByClassName('player_pause')[0].style.display="none"
+}
 //init
 function good(){
     var good = new Date().getHours();
@@ -32,4 +44,63 @@ function good(){
         document.getElementById('good').innerHTML = "Alien Detected!!"
         document.getElementById('subgood').innerHTML = "Is it 25P.M. now???"
         document.title = "我敬爱的造物主啊..."}
+}
+
+function home(){
+    document.getElementsByClassName('search_page')[0].style.display = "none"
+    document.getElementsByClassName('detail_page')[0].style.display = "none"
+    document.getElementsByClassName('home')[0].style.display = "initial"
+}
+
+function toast(text){
+    document.getElementById('toast').innerHTML = text
+    document.getElementById('toast').style.opacity = 1
+    setTimeout(function(){document.getElementById('toast').style.opacity = 0},2000)
+}
+function load(num){
+    for(var i = 0;i<num;i++){
+    document.getElementById('loading').innerHTML+="<svg><rect class='loading_block'></svg>"
+}}
+
+function searchButtonCd(){
+    document.getElementsByClassName('search_button')[0].setAttribute('onclick','')
+    document.getElementsByClassName('load_more')[0].setAttribute('onclick','')
+    var i = -4
+    document.getElementById('button_cd').height=document.getElementById('button_cd').height;
+    setTimeout(function(){document.getElementById('button_cd').style.display = "none";clearInterval(buttonCdInt);document.getElementsByClassName('search_button')[0].setAttribute('onclick','search(searchform.keywords.value,offset)');document.getElementsByClassName('load_more')[0].setAttribute('onclick','loadMore()')},2000)
+    document.getElementById('button_cd').style.display = "initial"
+    var arc = document.getElementById('button_cd').getContext('2d')
+    buttonCdInt = setInterval(function(){
+        document.getElementById('button_cd').height=document.getElementById('button_cd').height;
+        arc.beginPath()
+        arc.arc(20,20,20,Math.PI/10*i,-Math.PI/2)
+        arc.lineTo(20,20)
+        arc.closePath()
+        arc.fillStyle='rgba(0, 0, 0, 0.5)';
+        arc.fill()
+        i++
+    },100)
+}
+
+function loadMore(){
+    page++
+    offset = ( page - 1 ) * 30
+    result = undefined
+    document.getElementsByClassName('search_button')[0].click()
+}
+
+function returnFromDetail(){
+    document.getElementsByClassName('detail_page')[0].style.display = "none"
+}
+
+function change(picUrl,id){
+    if(playing != null) playing.pause()
+    document.getElementsByClassName('player_cover')[0].setAttribute('src',picUrl)
+    currentSongUrl = "https://music.163.com/song/media/outer/url?id=" + id
+    playing = new Audio(currentSongUrl)
+}
+
+function download(){
+    toast('e')
+    window.open(currentSongUrl)
 }

@@ -8,7 +8,7 @@ function get(url){
     /**
      * 获取数据后的处理程序
      */
-    httpRequest.onreadystatechange = function (callback) {
+    httpRequest.onreadystatechange = function () {
         if (httpRequest.readyState == 4 && httpRequest.status == 200) {
             var json = httpRequest.responseText;//获取到json字符串，还需解析
             result = Function('"use strict";return (' + json + ')')();
@@ -19,18 +19,36 @@ function getUrl(id){
     return window.location.href = "https://music.163.com/song/media/outer/url?id=" + id
 }
 function search(keywords,offset){
+    document.getElementById('page_number').innerHTML = "Page " + page
+    document.getElementsByClassName('detail_page')[0].style.display = "none"
+    searchButtonCd()
+    let intSearch = null
+    clearInterval(intSearch)
+    var keywords = keywords.replaceAll(' ','')
+    if(keywords.length == 0){toast("只输入"+keywords+"，想烧服务器啊?");return}
+    document.getElementById('loading').innerHTML=""
+    time=0
     document.getElementsByClassName('search_page')[0].style.display = "initial"
     document.getElementsByClassName('home')[0].style.display = "none"
     var url = api + "/cloudsearch?offset=" + offset + "&keywords=" + keywords;
-    result = undefined
     get(url)
+    result = undefined
     document.getElementsByClassName('list')[0].remove()
     var list = document.createElement('div')
     list.setAttribute('class','list')
     document.getElementsByClassName('search_page')[0].appendChild(list)
-    int = setInterval (function(){
+    intSearch = setInterval (function(){
         if(result!=undefined){
-        console.log(result.result.songs[0].name);clearInterval(int)
+        console.log(result.result.songs[0].name);clearInterval(intSearch)
+        toast("Searched in "+time/10 + "s");
+            if(result.result.songs.length==30) {document.getElementsByClassName('search_input')[0].style.right="110px";
+                document.getElementsByClassName('search_input')[0].style.width="240px";
+                document.getElementsByClassName('load_more')[0].style.opacity="1";
+                document.getElementsByClassName('load_more')[0].style.display="initial";}
+            else{document.getElementsByClassName('search_input')[0].style.right="70px";
+                document.getElementsByClassName('search_input')[0].style.width="280px";
+                document.getElementsByClassName('load_more')[0].style.opacity="0";
+                document.getElementsByClassName('load_more')[0].style.display="none";}
         for(var i=0;i<result.result.songs.length;i++){
             var item = document.createElement('div')
             item.setAttribute('class','item')
@@ -38,13 +56,15 @@ function search(keywords,offset){
 
             var title = document.createElement('p')
             title.setAttribute('class','title')
+            title.setAttribute('onclick',"change('"+result.result.songs[i].al.picUrl+"',"+result.result.songs[i].id+');play();')
             var titleContent = document.createTextNode(result.result.songs[i].name)
             title.appendChild(titleContent)
             document.getElementsByClassName('item')[i].appendChild(title)
-            if(result.result.songs[i].alia.length != 0){ var alia = document.createElement('a');alia.setAttribute('class','alia');var aliaContent = document.createTextNode(" -(" + result.result.songs[i].alia[0] + ")");alia.appendChild(aliaContent);document.getElementsByClassName('title')[i].appendChild(alia)}
+            if(result.result.songs[i].alia.length != 0){ var alia = document.createElement('span');alia.setAttribute('class','alia');var aliaContent = document.createTextNode(" -(" + result.result.songs[i].alia[0] + ")");alia.appendChild(aliaContent);document.getElementsByClassName('title')[i].appendChild(alia)}
 
             var cover = document.createElement('img')
             cover.setAttribute('class','cover')
+            cover.setAttribute('onclick',"change('"+result.result.songs[i].al.picUrl+"',"+result.result.songs[i].id+');play();')
             cover.setAttribute('src',result.result.songs[i].al.picUrl)
             document.getElementsByClassName('item')[i].appendChild(cover)
 
@@ -70,8 +90,13 @@ function search(keywords,offset){
             var albumContent = document.createTextNode(result.result.songs[i].al.name)
             album.appendChild(albumContent)
             document.getElementsByClassName('item')[i].appendChild(album)
-
         }}
-        else {console.log("Wait, do not click it again.")}
-    },500)
+        else {load(1);time++}
+    },100)
+}
+
+function albumDetail(id){
+    
+    document.getElementsByClassName('detail_page')[0].style.display = "initial"
+
 }
